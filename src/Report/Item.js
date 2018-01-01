@@ -2,7 +2,7 @@ import React from 'react';
 import moment from 'moment'
 import PropTypes from 'prop-types';
 
-const Item = ({name, created, type, location}) => {
+const Item = ({name, created, type, location}) => {  
   const createdDate =  moment.unix(created);
 
   return (
@@ -18,7 +18,7 @@ const Item = ({name, created, type, location}) => {
       <div className="list-item-time">{createdDate.format("LT")}</div>
     </div>  
   </div>
-)
+) 
 };
 
 Item.propTypes = {
