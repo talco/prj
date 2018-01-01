@@ -4,11 +4,24 @@ import './App.css';
 import Reports from './Report/Reports';
 
 class App extends Component {
+  state = {
+    isVisible: true
+  };
+
+  handleOpen = () => {
+    this.setState({isVisible: true})
+  }
+
+  handleClose = () => {
+    this.setState({isVisible: false})
+  }
 
   render() {
     return (
       <div className="App">
-        <Reports />
+    
+        <a onClick={this.handleOpen}>Open widget</a>
+        <Reports handleClose={this.handleClose} isVisible={this.state.isVisible} />
         
         {/* <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />

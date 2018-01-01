@@ -9,8 +9,7 @@ class Reports extends React.Component {
   
   // set default state
   state = {
-    q: "",
-    isVisible: true,
+    q: "",    
     items: []
   };
   
@@ -22,15 +21,11 @@ class Reports extends React.Component {
     this.setState({q: ""})
   }
 
-  handleClose = (event) => {
-    this.setState({isVisible: false})
-  }
-
   handleSearch = (event) => {
     this.setState({q: event.target.value});
   }
 
-  filterList () {
+  getFilterdList () {
     const {q, items} = this.state; 
 
     return items.filter(item => 
@@ -38,8 +33,9 @@ class Reports extends React.Component {
   }
   
   render() {
-    const {q, items, isVisible} = this.state;
-    const filteredList = this.filterList();
+    const {q, items} = this.state;
+    const {isVisible} = this.props;
+    const filteredList = this.getFilterdList();
 
     if (!isVisible) {
       return (<div></div>)
@@ -50,7 +46,7 @@ class Reports extends React.Component {
         <div class="reports-widget-header">
           <h1>Reports {filteredList.length}</h1>        
           <i className="refresh" onClick={this.handleRefreash}>refresh</i>
-          <i className="close" onClick={this.handleClose}>close</i>
+          <i className="close" onClick={this.props.handleClose}>close</i>
         </div>
         <div className="reports-widget-search">
           <input value={this.state.q} type="text" placeholder="search reports" onChange={this.handleSearch} />
