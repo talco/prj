@@ -1,64 +1,59 @@
-import React, { Component } from 'react';
-import {orderBy} from 'lodash';
+import React, {Component} from 'react';
 
-import Item from './Item';
-import items from './reports.json';
+import Header from './Header';
+import List from './List';
+import Search from './Search';
 import './reports.css';
 
-class Reports extends React.Component {
-  
+class Reports extends Component {
+
   // set default state
   state = {
-    q: "",    
-    items: []
+    query: "",    
+    filteredItems: this.props.items
   };
   
-  componentDidMount () {
-    this.setState({items: orderBy(items, "updated", "desc")})
+  handleRefresh = (event) => {
+    this.setState({
+      query: "", 
+      filteredItems: this.getFilterdList("")
+    });
   }
 
-  handleRefreash = (event) => {
-    this.setState({q: ""})
+  handleSearch = (event) => {    
+    this.setState({
+      query: event.target.value, 
+      filteredItems: this.getFilterdList(event.target.value)
+    });
   }
 
-  handleSearch = (event) => {
-    this.setState({q: event.target.value});
-  }
-
-  getFilterdList () {
-    const {q, items} = this.state; 
-
+  getFilterdList (query) {
+    const {items} = this.props; 
+    
+    if (!query) {
+      return items;
+    }
+    
     return items.filter(item => 
-      !q || item.name.toLowerCase().includes(q.toLowerCase()));
+      item.name.toLowerCase().includes(
+        query.toLowerCase()
+      )
+    );
   }
   
   render() {
-    const {q, items} = this.state;
-    const {isVisible} = this.props;
-    const filteredList = this.getFilterdList();
+    const {query, filteredItems} = this.state;
+    const {isVisible, handleClose} = this.props;    
 
     if (!isVisible) {
-      return (<div></div>)
+      return null;
     }
-
-    return (      
-      <div className="reports-widget">        
-        <div class="reports-widget-header">
-          <h1>Reports {filteredList.length}</h1>        
-          <i className="refresh" onClick={this.handleRefreash}>refresh</i>
-          <i className="close" onClick={this.props.handleClose}>close</i>
-        </div>
-        <div className="reports-widget-search">
-          <input value={this.state.q} type="text" placeholder="search reports" onChange={this.handleSearch} />
-        </div>
-
-        <div className="reports-widget-list">
-          <div className="reports-widget-list-items">
-            {filteredList.map(item =>
-              <Item className="reports-widget-list-item" {...item}></Item>
-            )}
-          </div>
-        </div>
+    
+    return (
+      <div className="reports-sidebar">
+        <Header handleRefresh={this.handleRefresh} handleClose={handleClose}  numberOfItems={filteredItems.length} />
+        <Search handleSearch={this.handleSearch} query={query} />
+        <List items={filteredItems} />
       </div>
     );
   }
