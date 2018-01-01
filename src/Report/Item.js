@@ -7,8 +7,7 @@ const Item = ({name, created, type, location}) => {
 
   return (
   <div className="list-item">
-    <div className="list-col-1">
-      <span>*</span>
+    <div className="list-col-1">      
     </div>
     <div className="list-col-2">
       <div className="list-item-name">{name}</div> 

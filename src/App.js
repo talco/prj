@@ -4,6 +4,7 @@ import Reports from './Report/Reports';
 import items from './Report/reports.json';
 
 class App extends Component {
+  //get list of items for report sidebar
   orderedList = orderBy(items, "updated", "desc");
 
   // set default state
@@ -20,9 +21,13 @@ class App extends Component {
   }
 
   render() {
+    if(!this.state.isVisible) {
+      return (
+        <a onClick={this.handleOpen}>Open widget</a>
+      )
+    }
     return (
       <div className="App">
-        <a onClick={this.handleOpen}>Open widget</a>
         <Reports handleClose={this.handleClose} isVisible={this.state.isVisible} items={this.orderedList} />
       </div>
     );
