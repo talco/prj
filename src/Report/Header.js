@@ -10,8 +10,8 @@ const Header = ({handleRefresh, handleClose, numberOfItems}) => (
 );
 
 Header.propTypes = {
-  handleRefresh: PropTypes.function,
-  handleClose: PropTypes.function,
+  handleRefresh: PropTypes.func,
+  handleClose: PropTypes.func,
   numberOfItems: PropTypes.number
 };
 
